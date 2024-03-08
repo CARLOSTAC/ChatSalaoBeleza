@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Serviços</title>
+    <!-- Incluindo o Bootstrap CSS para estilização -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>Serviços</h1>
+    <!-- Adicionando classe do Bootstrap à tabela para estilização -->
+    <table class="table">
+        <thead class="thead-light"> <!-- Cabeçalho da tabela com estilo claro do Bootstrap -->
+            <tr>
+                <th>Nome do Serviço</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for servico in servicos %} <!-- Iterando sobre a lista de serviços -->
+            <tr>
+                <td>{{ servico.nome }}</td>
+                <td>{{ servico.descricao }}</td>
+                <td>{{ servico.preco }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Incluindo o Bootstrap JS e dependências para funcionalidades interativas, se necessário -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

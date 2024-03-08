@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profissionais - Chat_Beleza</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Profissionais</h2>
+        <!-- Botão para Adicionar Profissional -->
+        <button class="btn btn-success mb-3" data-toggle="modal" data-target="#addProfessionalModal">Adicionar Profissional</button>
+
+        <!-- Tabela de Profissionais -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Especialidades e Preços</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+        <tbody>
+        {% for profissional in profissionais %}
+        <tr>
+            <td>{{ profissional.nome }}</td>
+            <td>
+                {% for servico in profissional.servicos %}
+                    {{ servico.nome }}: R$ {{ servico.preco }}<br>
+                {% endfor %}
+            </td>
+            <td>
+                <a href="{{ url_for('editar_profissional', id=profissional.id) }}" class="btn btn-primary">Editar</a>
+                <a href="{{ url_for('excluir_profissional', id=profissional.id) }}" class="btn btn-danger">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+                
+
+        </table>
+
+        <!-- Modal para Adicionar Profissional -->
+        <div class="modal fade" id="addProfessionalModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Adicionar Novo Profissional</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/add-professional" method="POST">
+                            <div class="form-group">
+                                <label for="professionalName">Nome do Profissional</label>
+                                <input type="text" class="form-control" id="professionalName" name="professionalName">
+                            </div>
+                            <div class="form-group">
+                                <label>Serviços Oferecidos</label>
+                                <div id="serviceList">
+                                    <div class="d-flex mb-2">
+                                        <input type="text" class="form-control mr-2" placeholder="Serviço" name="services[]">
+                                        <input type="text" class="form-control" placeholder="Preço" name="prices[]">
+                                        <button type="button" class="btn btn-danger ml-2" onclick="removeService(this)">X</button>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary" onclick="addService()">Adicionar Serviço</button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Salvar Profissional</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function addService() {
+            const serviceList = document.getElementById('serviceList');
+            const newService = document.createElement('div');
+            newService.classList.add('d-flex', 'mb-2');
+            newService.innerHTML = `
+                <input type="text" class="form-control mr-2" placeholder="Serviço" name="services[]">
+                <input type="text" class="form-control" placeholder="Preço" name="prices[]">
+                <button class="btn btn-danger ml-2" onclick="removeService(this)">X</button>
+            `;
+            serviceList.appendChild(newService);
+        }
+
+        function removeService(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</body>
+</html>
